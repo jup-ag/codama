@@ -32,11 +32,14 @@ export function eventInstructionNodeFromAnchorV00(event: IdlV00Event): Instructi
     // actual event discriminator, so the discriminator starts at offset 8.
     const discriminators = [fieldDiscriminatorNode('discriminator', 8)];
 
-    return instructionNode({
-        accounts: [],
-        arguments: dataArguments,
-        discriminators,
-        docs: [],
-        name: camelCase(event.name),
+    return Object.freeze({
+        ...instructionNode({
+            accounts: [],
+            arguments: dataArguments,
+            discriminators,
+            docs: [],
+            name: camelCase(event.name),
+        }),
+        isEvent: true as const,
     });
 }
