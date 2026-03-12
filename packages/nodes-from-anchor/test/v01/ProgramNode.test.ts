@@ -245,80 +245,72 @@ test('it converts events to instruction nodes', () => {
                 }),
             ],
             instructions: [
-                {
-                    ...instructionNode({
-                        accounts: [],
-                        arguments: [
-                            instructionArgumentNode({
-                                defaultValue: getAnchorDiscriminatorV01([124, 190, 74, 28, 177, 40, 200, 220]),
-                                defaultValueStrategy: 'omitted',
-                                name: 'discriminator',
-                                type: fixedSizeTypeNode(bytesTypeNode(), 8),
-                            }),
-                            instructionArgumentNode({ name: 'orderId', type: numberTypeNode('u128') }),
-                            instructionArgumentNode({ name: 'maker', type: publicKeyTypeNode() }),
-                        ],
-                        discriminators: [fieldDiscriminatorNode('discriminator', 8)],
-                        name: 'cancelDustOrderEvent',
-                    }),
+                instructionNode({
+                    accounts: [],
+                    arguments: [
+                        instructionArgumentNode({
+                            defaultValue: getAnchorDiscriminatorV01([124, 190, 74, 28, 177, 40, 200, 220]),
+                            defaultValueStrategy: 'omitted',
+                            name: 'discriminator',
+                            type: fixedSizeTypeNode(bytesTypeNode(), 8),
+                        }),
+                        instructionArgumentNode({ name: 'orderId', type: numberTypeNode('u128') }),
+                        instructionArgumentNode({ name: 'maker', type: publicKeyTypeNode() }),
+                    ],
+                    discriminators: [fieldDiscriminatorNode('discriminator', 8)],
                     isEvent: true,
-                },
-                {
-                    ...instructionNode({
-                        accounts: [],
-                        arguments: [
-                            instructionArgumentNode({
-                                defaultValue: getAnchorDiscriminatorV01([174, 66, 141, 17, 4, 224, 162, 77]),
-                                defaultValueStrategy: 'omitted',
-                                name: 'discriminator',
-                                type: fixedSizeTypeNode(bytesTypeNode(), 8),
-                            }),
-                            instructionArgumentNode({ name: 'orderId', type: numberTypeNode('u128') }),
-                        ],
-                        discriminators: [fieldDiscriminatorNode('discriminator', 8)],
-                        name: 'cancelOrderEvent',
-                    }),
+                    name: 'cancelDustOrderEvent',
+                }),
+                instructionNode({
+                    accounts: [],
+                    arguments: [
+                        instructionArgumentNode({
+                            defaultValue: getAnchorDiscriminatorV01([174, 66, 141, 17, 4, 224, 162, 77]),
+                            defaultValueStrategy: 'omitted',
+                            name: 'discriminator',
+                            type: fixedSizeTypeNode(bytesTypeNode(), 8),
+                        }),
+                        instructionArgumentNode({ name: 'orderId', type: numberTypeNode('u128') }),
+                    ],
+                    discriminators: [fieldDiscriminatorNode('discriminator', 8)],
                     isEvent: true,
-                },
-                {
-                    ...instructionNode({
-                        accounts: [],
-                        arguments: [
-                            instructionArgumentNode({
-                                defaultValue: getAnchorDiscriminatorV01([49, 142, 72, 166, 230, 29, 84, 84]),
-                                defaultValueStrategy: 'omitted',
-                                name: 'discriminator',
-                                type: fixedSizeTypeNode(bytesTypeNode(), 8),
-                            }),
-                            instructionArgumentNode({ name: 'orderId', type: numberTypeNode('u128') }),
-                            instructionArgumentNode({ name: 'price', type: numberTypeNode('u64') }),
-                            instructionArgumentNode({ name: 'quantity', type: numberTypeNode('u64') }),
-                        ],
-                        discriminators: [fieldDiscriminatorNode('discriminator', 8)],
-                        name: 'createOrderEvent',
-                    }),
+                    name: 'cancelOrderEvent',
+                }),
+                instructionNode({
+                    accounts: [],
+                    arguments: [
+                        instructionArgumentNode({
+                            defaultValue: getAnchorDiscriminatorV01([49, 142, 72, 166, 230, 29, 84, 84]),
+                            defaultValueStrategy: 'omitted',
+                            name: 'discriminator',
+                            type: fixedSizeTypeNode(bytesTypeNode(), 8),
+                        }),
+                        instructionArgumentNode({ name: 'orderId', type: numberTypeNode('u128') }),
+                        instructionArgumentNode({ name: 'price', type: numberTypeNode('u64') }),
+                        instructionArgumentNode({ name: 'quantity', type: numberTypeNode('u64') }),
+                    ],
+                    discriminators: [fieldDiscriminatorNode('discriminator', 8)],
                     isEvent: true,
-                },
-                {
-                    ...instructionNode({
-                        accounts: [],
-                        arguments: [
-                            instructionArgumentNode({
-                                defaultValue: getAnchorDiscriminatorV01([189, 219, 127, 211, 78, 230, 97, 238]),
-                                defaultValueStrategy: 'omitted',
-                                name: 'discriminator',
-                                type: fixedSizeTypeNode(bytesTypeNode(), 8),
-                            }),
-                            instructionArgumentNode({ name: 'price', type: numberTypeNode('u64') }),
-                            instructionArgumentNode({ name: 'quantity', type: numberTypeNode('u64') }),
-                            instructionArgumentNode({ name: 'maker', type: publicKeyTypeNode() }),
-                            instructionArgumentNode({ name: 'taker', type: publicKeyTypeNode() }),
-                        ],
-                        discriminators: [fieldDiscriminatorNode('discriminator', 8)],
-                        name: 'tradeEvent',
-                    }),
+                    name: 'createOrderEvent',
+                }),
+                instructionNode({
+                    accounts: [],
+                    arguments: [
+                        instructionArgumentNode({
+                            defaultValue: getAnchorDiscriminatorV01([189, 219, 127, 211, 78, 230, 97, 238]),
+                            defaultValueStrategy: 'omitted',
+                            name: 'discriminator',
+                            type: fixedSizeTypeNode(bytesTypeNode(), 8),
+                        }),
+                        instructionArgumentNode({ name: 'price', type: numberTypeNode('u64') }),
+                        instructionArgumentNode({ name: 'quantity', type: numberTypeNode('u64') }),
+                        instructionArgumentNode({ name: 'maker', type: publicKeyTypeNode() }),
+                        instructionArgumentNode({ name: 'taker', type: publicKeyTypeNode() }),
+                    ],
+                    discriminators: [fieldDiscriminatorNode('discriminator', 8)],
                     isEvent: true,
-                },
+                    name: 'tradeEvent',
+                }),
             ],
             name: 'myProgram',
             origin: 'anchor',
