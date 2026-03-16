@@ -41,7 +41,6 @@ export function eventInstructionNodeFromAnchorV01(
         arguments: dataArguments,
         discriminators,
         docs: [],
-        isEvent: true,
         name: camelCase(event.name),
     });
 }

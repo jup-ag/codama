@@ -27,7 +27,6 @@ export interface InstructionNode<
     readonly name: CamelCaseString;
     readonly docs?: Docs;
     readonly optionalAccountStrategy?: OptionalAccountStrategy;
-    readonly isEvent?: boolean;
 
     // Children.
     readonly accounts: TAccounts;

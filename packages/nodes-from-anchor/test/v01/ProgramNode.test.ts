@@ -30,7 +30,7 @@ import {
 } from '@codama/nodes';
 import { expect, test } from 'vitest';
 
-import { getAnchorDiscriminatorV01, programNodeFromAnchorV01 } from '../../src';
+import { getAnchorDiscriminatorV01, programNodeFromAnchorV01, programNodeFromAnchorV01Events } from '../../src';
 
 test('it creates program nodes', () => {
     const node = programNodeFromAnchorV01({
@@ -156,7 +156,7 @@ test('it creates program nodes', () => {
 });
 
 test('it converts events to instruction nodes', () => {
-    const node = programNodeFromAnchorV01({
+    const node = programNodeFromAnchorV01Events({
         address: '1111',
         events: [
             { discriminator: [124, 190, 74, 28, 177, 40, 200, 220], name: 'CancelDustOrderEvent' },
@@ -212,38 +212,6 @@ test('it converts events to instruction nodes', () => {
 
     expect(node).toEqual(
         programNode({
-            definedTypes: [
-                definedTypeNode({
-                    name: 'cancelDustOrderEvent',
-                    type: structTypeNode([
-                        structFieldTypeNode({ name: 'orderId', type: numberTypeNode('u128') }),
-                        structFieldTypeNode({ name: 'maker', type: publicKeyTypeNode() }),
-                    ]),
-                }),
-                definedTypeNode({
-                    name: 'cancelOrderEvent',
-                    type: structTypeNode([
-                        structFieldTypeNode({ name: 'orderId', type: numberTypeNode('u128') }),
-                    ]),
-                }),
-                definedTypeNode({
-                    name: 'createOrderEvent',
-                    type: structTypeNode([
-                        structFieldTypeNode({ name: 'orderId', type: numberTypeNode('u128') }),
-                        structFieldTypeNode({ name: 'price', type: numberTypeNode('u64') }),
-                        structFieldTypeNode({ name: 'quantity', type: numberTypeNode('u64') }),
-                    ]),
-                }),
-                definedTypeNode({
-                    name: 'tradeEvent',
-                    type: structTypeNode([
-                        structFieldTypeNode({ name: 'price', type: numberTypeNode('u64') }),
-                        structFieldTypeNode({ name: 'quantity', type: numberTypeNode('u64') }),
-                        structFieldTypeNode({ name: 'maker', type: publicKeyTypeNode() }),
-                        structFieldTypeNode({ name: 'taker', type: publicKeyTypeNode() }),
-                    ]),
-                }),
-            ],
             instructions: [
                 instructionNode({
                     accounts: [],
@@ -258,7 +226,6 @@ test('it converts events to instruction nodes', () => {
                         instructionArgumentNode({ name: 'maker', type: publicKeyTypeNode() }),
                     ],
                     discriminators: [fieldDiscriminatorNode('discriminator', 8)],
-                    isEvent: true,
                     name: 'cancelDustOrderEvent',
                 }),
                 instructionNode({
@@ -273,7 +240,6 @@ test('it converts events to instruction nodes', () => {
                         instructionArgumentNode({ name: 'orderId', type: numberTypeNode('u128') }),
                     ],
                     discriminators: [fieldDiscriminatorNode('discriminator', 8)],
-                    isEvent: true,
                     name: 'cancelOrderEvent',
                 }),
                 instructionNode({
@@ -290,7 +256,6 @@ test('it converts events to instruction nodes', () => {
                         instructionArgumentNode({ name: 'quantity', type: numberTypeNode('u64') }),
                     ],
                     discriminators: [fieldDiscriminatorNode('discriminator', 8)],
-                    isEvent: true,
                     name: 'createOrderEvent',
                 }),
                 instructionNode({
@@ -308,7 +273,6 @@ test('it converts events to instruction nodes', () => {
                         instructionArgumentNode({ name: 'taker', type: publicKeyTypeNode() }),
                     ],
                     discriminators: [fieldDiscriminatorNode('discriminator', 8)],
-                    isEvent: true,
                     name: 'tradeEvent',
                 }),
             ],

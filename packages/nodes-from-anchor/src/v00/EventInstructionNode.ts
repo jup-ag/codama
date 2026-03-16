@@ -37,7 +37,6 @@ export function eventInstructionNodeFromAnchorV00(event: IdlV00Event): Instructi
         arguments: dataArguments,
         discriminators,
         docs: [],
-        isEvent: true,
         name: camelCase(event.name),
     });
 }
