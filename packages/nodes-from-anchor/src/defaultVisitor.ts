@@ -38,3 +38,22 @@ export function defaultVisitor() {
         return root;
     });
 }
+
+export function defaultEventsVisitor() {
+    return rootNodeVisitor(currentRoot => {
+        let root: RootNode = currentRoot;
+        const updateRoot = (visitor: Visitor<Node | null, 'rootNode'>) => {
+            const newRoot = visit(root, visitor);
+            assertIsNode(newRoot, 'rootNode');
+            root = newRoot;
+        };
+
+        // Defined types.
+        updateRoot(deduplicateIdenticalDefinedTypesVisitor());
+
+        // Extras.
+        updateRoot(transformU8ArraysToBytesVisitor());
+
+        return root;
+    });
+}

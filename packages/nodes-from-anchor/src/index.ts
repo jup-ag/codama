@@ -1,7 +1,7 @@
 import { RootNode } from '@codama/nodes';
 import { visit } from '@codama/visitors';
 
-import { defaultVisitor } from './defaultVisitor';
+import { defaultEventsVisitor, defaultVisitor } from './defaultVisitor';
 import { IdlV00, rootNodeFromAnchorV00, rootNodeFromAnchorV00Events } from './v00';
 import { IdlV01, rootNodeFromAnchorV01, rootNodeFromAnchorV01Events } from './v01';
 
@@ -25,7 +25,7 @@ export function rootNodeFromAnchorWithoutDefaultVisitor(idl: AnchorIdl): RootNod
 }
 
 export function rootNodeFromAnchorEvents(idl: AnchorIdl): RootNode {
-    return visit(rootNodeFromAnchorEventsWithoutDefaultVisitor(idl), defaultVisitor());
+    return visit(rootNodeFromAnchorEventsWithoutDefaultVisitor(idl), defaultEventsVisitor());
 }
 
 export function rootNodeFromAnchorEventsWithoutDefaultVisitor(idl: AnchorIdl): RootNode {
