@@ -36,12 +36,16 @@ export function programNodeFromAnchorV01Events(idl: IdlV01): ProgramNode {
     const [types, generics] = extractGenerics(idl.types ?? []);
     const events = idl.events ?? [];
 
+    const filteredTypes = types.filter(type => !events.some(event => event.name === type.name));
+    const definedTypes = filteredTypes.map(type => definedTypeNodeFromAnchorV01(type, generics));
+
     const eventInstructionNodes = events.map(event => {
         const typeDef = types.find(type => type.name === event.name);
         return eventInstructionNodeFromAnchorV01(event, typeDef, generics);
     });
 
     return programNode({
+        definedTypes,
         instructions: eventInstructionNodes,
         name: idl.metadata.name,
         origin: 'anchor',

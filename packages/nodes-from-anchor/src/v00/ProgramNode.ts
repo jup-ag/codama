@@ -34,6 +34,7 @@ export function programNodeFromAnchorV00Events(idl: IdlV00): ProgramNode {
     const eventInstructionNodes = (idl.events ?? []).map(eventInstructionNodeFromAnchorV00);
 
     return programNode({
+        definedTypes: (idl?.types ?? []).map(definedTypeNodeFromAnchorV00),
         instructions: eventInstructionNodes,
         name: idl?.name ?? '',
         origin,
