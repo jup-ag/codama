@@ -15,29 +15,17 @@ export function programNodeFromAnchorV00(idl: IdlV00): ProgramNode {
     const instructionNodes = (idl.instructions ?? []).map((instruction, index) =>
         instructionNodeFromAnchorV00(instruction, index, origin),
     );
+    const eventInstructionNodes = (idl.events ?? []).map(eventInstructionNodeFromAnchorV00);
 
     return programNode({
         accounts,
         definedTypes: (idl?.types ?? []).map(definedTypeNodeFromAnchorV00),
         errors: (idl?.errors ?? []).map(errorNodeFromAnchorV00),
+        events: eventInstructionNodes,
         instructions: instructionNodes,
         name: idl?.name ?? '',
         origin,
         pdas,
-        publicKey: (idl?.metadata as { address?: string })?.address ?? '',
-        version: idl.version as ProgramVersion,
-    });
-}
-
-export function programNodeFromAnchorV00Events(idl: IdlV00): ProgramNode {
-    const origin = (idl?.metadata as { origin?: 'anchor' | 'shank' })?.origin ?? 'anchor';
-    const eventInstructionNodes = (idl.events ?? []).map(eventInstructionNodeFromAnchorV00);
-
-    return programNode({
-        definedTypes: (idl?.types ?? []).map(definedTypeNodeFromAnchorV00),
-        instructions: eventInstructionNodes,
-        name: idl?.name ?? '',
-        origin,
         publicKey: (idl?.metadata as { address?: string })?.address ?? '',
         version: idl.version as ProgramVersion,
     });

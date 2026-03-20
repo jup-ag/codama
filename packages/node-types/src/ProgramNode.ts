@@ -11,6 +11,7 @@ export interface ProgramNode<
     TInstructions extends InstructionNode[] = InstructionNode[],
     TDefinedTypes extends DefinedTypeNode[] = DefinedTypeNode[],
     TErrors extends ErrorNode[] = ErrorNode[],
+    TEvents extends InstructionNode[] = InstructionNode[],
 > {
     readonly kind: 'programNode';
 
@@ -27,4 +28,5 @@ export interface ProgramNode<
     readonly definedTypes: TDefinedTypes;
     readonly pdas: TPdas;
     readonly errors: TErrors;
+    readonly events: TEvents;
 }

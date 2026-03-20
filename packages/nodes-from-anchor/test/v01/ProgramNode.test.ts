@@ -30,7 +30,7 @@ import {
 } from '@codama/nodes';
 import { expect, test } from 'vitest';
 
-import { getAnchorDiscriminatorV01, programNodeFromAnchorV01, programNodeFromAnchorV01Events } from '../../src';
+import { getAnchorDiscriminatorV01, programNodeFromAnchorV01 } from '../../src';
 
 test('it creates program nodes', () => {
     const node = programNodeFromAnchorV01({
@@ -155,13 +155,11 @@ test('it creates program nodes', () => {
     );
 });
 
-test('it converts events to instruction nodes', () => {
-    const node = programNodeFromAnchorV01Events({
+test('it converts events to the events array', () => {
+    const node = programNodeFromAnchorV01({
         address: '1111',
         events: [
             { discriminator: [124, 190, 74, 28, 177, 40, 200, 220], name: 'CancelDustOrderEvent' },
-            { discriminator: [174, 66, 141, 17, 4, 224, 162, 77], name: 'CancelOrderEvent' },
-            { discriminator: [49, 142, 72, 166, 230, 29, 84, 84], name: 'CreateOrderEvent' },
             { discriminator: [189, 219, 127, 211, 78, 230, 97, 238], name: 'TradeEvent' },
         ],
         instructions: [],
@@ -178,31 +176,11 @@ test('it converts events to instruction nodes', () => {
                 },
             },
             {
-                name: 'CancelOrderEvent',
-                type: {
-                    fields: [{ name: 'order_id', type: 'u128' }],
-                    kind: 'struct',
-                },
-            },
-            {
-                name: 'CreateOrderEvent',
-                type: {
-                    fields: [
-                        { name: 'order_id', type: 'u128' },
-                        { name: 'price', type: 'u64' },
-                        { name: 'quantity', type: 'u64' },
-                    ],
-                    kind: 'struct',
-                },
-            },
-            {
                 name: 'TradeEvent',
                 type: {
                     fields: [
                         { name: 'price', type: 'u64' },
                         { name: 'quantity', type: 'u64' },
-                        { name: 'maker', type: 'pubkey' },
-                        { name: 'taker', type: 'pubkey' },
                     ],
                     kind: 'struct',
                 },
@@ -212,7 +190,7 @@ test('it converts events to instruction nodes', () => {
 
     expect(node).toEqual(
         programNode({
-            instructions: [
+            events: [
                 instructionNode({
                     accounts: [],
                     arguments: [
@@ -232,36 +210,6 @@ test('it converts events to instruction nodes', () => {
                     accounts: [],
                     arguments: [
                         instructionArgumentNode({
-                            defaultValue: getAnchorDiscriminatorV01([174, 66, 141, 17, 4, 224, 162, 77]),
-                            defaultValueStrategy: 'omitted',
-                            name: 'discriminator',
-                            type: fixedSizeTypeNode(bytesTypeNode(), 8),
-                        }),
-                        instructionArgumentNode({ name: 'orderId', type: numberTypeNode('u128') }),
-                    ],
-                    discriminators: [fieldDiscriminatorNode('discriminator', 8)],
-                    name: 'cancelOrderEvent',
-                }),
-                instructionNode({
-                    accounts: [],
-                    arguments: [
-                        instructionArgumentNode({
-                            defaultValue: getAnchorDiscriminatorV01([49, 142, 72, 166, 230, 29, 84, 84]),
-                            defaultValueStrategy: 'omitted',
-                            name: 'discriminator',
-                            type: fixedSizeTypeNode(bytesTypeNode(), 8),
-                        }),
-                        instructionArgumentNode({ name: 'orderId', type: numberTypeNode('u128') }),
-                        instructionArgumentNode({ name: 'price', type: numberTypeNode('u64') }),
-                        instructionArgumentNode({ name: 'quantity', type: numberTypeNode('u64') }),
-                    ],
-                    discriminators: [fieldDiscriminatorNode('discriminator', 8)],
-                    name: 'createOrderEvent',
-                }),
-                instructionNode({
-                    accounts: [],
-                    arguments: [
-                        instructionArgumentNode({
                             defaultValue: getAnchorDiscriminatorV01([189, 219, 127, 211, 78, 230, 97, 238]),
                             defaultValueStrategy: 'omitted',
                             name: 'discriminator',
@@ -269,8 +217,6 @@ test('it converts events to instruction nodes', () => {
                         }),
                         instructionArgumentNode({ name: 'price', type: numberTypeNode('u64') }),
                         instructionArgumentNode({ name: 'quantity', type: numberTypeNode('u64') }),
-                        instructionArgumentNode({ name: 'maker', type: publicKeyTypeNode() }),
-                        instructionArgumentNode({ name: 'taker', type: publicKeyTypeNode() }),
                     ],
                     discriminators: [fieldDiscriminatorNode('discriminator', 8)],
                     name: 'tradeEvent',

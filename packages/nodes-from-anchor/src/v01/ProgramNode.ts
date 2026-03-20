@@ -13,40 +13,27 @@ export function programNodeFromAnchorV01(idl: IdlV01): ProgramNode {
     const accounts = idl.accounts ?? [];
     const instructions = idl.instructions ?? [];
     const errors = idl.errors ?? [];
-
-    const filteredTypes = types.filter(type => !accounts.some(account => account.name === type.name));
-    const definedTypes = filteredTypes.map(type => definedTypeNodeFromAnchorV01(type, generics));
-    const accountNodes = accounts.map(account => accountNodeFromAnchorV01(account, types, generics));
-
-    const instructionNodes = instructions.map(instruction => instructionNodeFromAnchorV01(instruction, generics));
-
-    return programNode({
-        accounts: accountNodes,
-        definedTypes,
-        errors: errors.map(errorNodeFromAnchorV01),
-        instructions: instructionNodes,
-        name: idl.metadata.name,
-        origin: 'anchor',
-        publicKey: idl.address,
-        version: idl.metadata.version as ProgramVersion,
-    });
-}
-
-export function programNodeFromAnchorV01Events(idl: IdlV01): ProgramNode {
-    const [types, generics] = extractGenerics(idl.types ?? []);
     const events = idl.events ?? [];
 
-    const filteredTypes = types.filter(type => !events.some(event => event.name === type.name));
+    const filteredTypes = types.filter(
+        type =>
+            !accounts.some(account => account.name === type.name) &&
+            !events.some(event => event.name === type.name),
+    );
     const definedTypes = filteredTypes.map(type => definedTypeNodeFromAnchorV01(type, generics));
-
+    const accountNodes = accounts.map(account => accountNodeFromAnchorV01(account, types, generics));
+    const instructionNodes = instructions.map(instruction => instructionNodeFromAnchorV01(instruction, generics));
     const eventInstructionNodes = events.map(event => {
         const typeDef = types.find(type => type.name === event.name);
         return eventInstructionNodeFromAnchorV01(event, typeDef, generics);
     });
 
     return programNode({
+        accounts: accountNodes,
         definedTypes,
-        instructions: eventInstructionNodes,
+        errors: errors.map(errorNodeFromAnchorV01),
+        events: eventInstructionNodes,
+        instructions: instructionNodes,
         name: idl.metadata.name,
         origin: 'anchor',
         publicKey: idl.address,
