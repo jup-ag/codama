@@ -107,6 +107,9 @@ export function identityVisitor<TNodeKind extends NodeKind = NodeKind>(
                     .map(visit(this))
                     .filter(removeNullAndAssertIsNodeFilter('definedTypeNode')),
                 errors: node.errors.map(visit(this)).filter(removeNullAndAssertIsNodeFilter('errorNode')),
+                events: (node.events ?? [])
+                    .map(visit(this))
+                    .filter(removeNullAndAssertIsNodeFilter('instructionNode')),
                 instructions: node.instructions
                     .map(visit(this))
                     .filter(removeNullAndAssertIsNodeFilter('instructionNode')),

@@ -55,6 +55,9 @@ export function unwrapDefinedTypesVisitor(typesToInline: string[] | '*' = '*') {
                             .filter(definedType => !shouldInline(definedType.name, program.name))
                             .map(type => visit(type, self))
                             .filter(assertIsNodeFilter('definedTypeNode')),
+                        events: (program.events ?? [])
+                            .map(event => visit(event, self))
+                            .filter(assertIsNodeFilter('instructionNode')),
                         instructions: program.instructions
                             .map(instruction => visit(instruction, self))
                             .filter(assertIsNodeFilter('instructionNode')),

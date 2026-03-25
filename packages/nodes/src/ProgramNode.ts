@@ -16,8 +16,9 @@ export type ProgramNodeInput<
     TInstructions extends InstructionNode[] = InstructionNode[],
     TDefinedTypes extends DefinedTypeNode[] = DefinedTypeNode[],
     TErrors extends ErrorNode[] = ErrorNode[],
+    TEvents extends InstructionNode[] = InstructionNode[],
 > = Omit<
-    Partial<ProgramNode<TPdas, TAccounts, TInstructions, TDefinedTypes, TErrors>>,
+    Partial<ProgramNode<TPdas, TAccounts, TInstructions, TDefinedTypes, TErrors, TEvents>>,
     'docs' | 'kind' | 'name' | 'publicKey'
 > & {
     readonly docs?: DocsInput;
@@ -31,9 +32,10 @@ export function programNode<
     const TInstructions extends InstructionNode[] = [],
     const TDefinedTypes extends DefinedTypeNode[] = [],
     const TErrors extends ErrorNode[] = [],
+    const TEvents extends InstructionNode[] = [],
 >(
-    input: ProgramNodeInput<TPdas, TAccounts, TInstructions, TDefinedTypes, TErrors>,
-): ProgramNode<TPdas, TAccounts, TInstructions, TDefinedTypes, TErrors> {
+    input: ProgramNodeInput<TPdas, TAccounts, TInstructions, TDefinedTypes, TErrors, TEvents>,
+): ProgramNode<TPdas, TAccounts, TInstructions, TDefinedTypes, TErrors, TEvents> {
     return Object.freeze({
         kind: 'programNode',
 
@@ -50,6 +52,7 @@ export function programNode<
         definedTypes: (input.definedTypes ?? []) as TDefinedTypes,
         pdas: (input.pdas ?? []) as TPdas,
         errors: (input.errors ?? []) as TErrors,
+        events: (input.events ?? []) as TEvents,
     });
 }
 
@@ -77,4 +80,8 @@ export function getAllInstructions(node: ProgramNode | ProgramNode[] | RootNode)
 
 export function getAllErrors(node: ProgramNode | ProgramNode[] | RootNode): ErrorNode[] {
     return getAllPrograms(node).flatMap(program => program.errors);
+}
+
+export function getAllEvents(node: ProgramNode | ProgramNode[] | RootNode): InstructionNode[] {
+    return getAllPrograms(node).flatMap(program => program.events);
 }
